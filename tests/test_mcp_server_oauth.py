@@ -238,7 +238,11 @@ def test_full_oauth_flow_yields_working_bearer_token(client):
 
     from urllib.parse import parse_qs, urlparse
 
-    code = parse_qs(urlparse(redirect_location).query)["code"][0]
+    qs = parse_qs(urlparse(redirect_location).query)
+    # RFC 9207: `iss` must exactly match the advertised issuer.
+    issuer = client.get("/.well-known/oauth-authorization-server").json()["issuer"]
+    assert qs["iss"] == [issuer]
+    code = qs["code"][0]
 
     token_resp = client.post(
         "/token",

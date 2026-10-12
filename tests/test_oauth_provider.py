@@ -41,7 +41,7 @@ def provider(tmp_path) -> CiteCaddyOAuthProvider:
     store = TokenStore(
         str(tmp_path / "store.json"), fernet_key=Fernet.generate_key().decode()
     )
-    return CiteCaddyOAuthProvider(store)
+    return CiteCaddyOAuthProvider(store, issuer_url="https://citecaddy.example")
 
 
 @pytest.fixture
@@ -155,6 +155,8 @@ async def test_complete_login_success_redirects_with_code_and_state(
     qs = parse_qs(parsed.query)
     assert qs["state"] == ["my-state"]
     assert "code" in qs
+    # RFC 9207: issuer identifier, matching the authorization server metadata.
+    assert qs["iss"] == ["https://citecaddy.example"]
 
     # Login session is consumed -- can't be replayed.
     with pytest.raises(LoginSessionExpiredError):

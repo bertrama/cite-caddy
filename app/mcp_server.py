@@ -164,7 +164,9 @@ if _PORT:
         os.path.join(_http_settings.data_dir, "oauth_store.json"),
         fernet_key=_http_settings.token_store_key,
     )
-    _oauth_provider = CiteCaddyOAuthProvider(store=_token_store)
+    _oauth_provider = CiteCaddyOAuthProvider(
+        store=_token_store, issuer_url=_http_settings.public_url
+    )
     mcp = MCPServer(
         "Cite Caddy",
         instructions=_INSTRUCTIONS,

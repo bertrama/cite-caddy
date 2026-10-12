@@ -113,8 +113,11 @@ class LoginSessionExpiredError(Exception):
 
 
 class CiteCaddyOAuthProvider(OAuthAuthorizationServerProvider):
-    def __init__(self, store: TokenStore) -> None:
+    def __init__(self, store: TokenStore, issuer_url: str) -> None:
         self._store = store
+        # Sent back as `iss` on the authorization redirect (RFC 9207); must
+        # match the `issuer` in /.well-known/oauth-authorization-server.
+        self._issuer_url = issuer_url
         self._pending: dict[str, PendingAuthorization] = {}
 
     # ---- dynamic client registration ----------------------------------
@@ -211,10 +214,15 @@ class CiteCaddyOAuthProvider(OAuthAuthorizationServerProvider):
         )
         self._store.put("auth_codes", code, auth_code.model_dump(mode="json"))
 
+        # `iss` (RFC 9207) guards against OAuth mix-up attacks. The SDK's
+        # metadata doesn't advertise authorization_response_iss_parameter_supported,
+        # so clients aren't required to check it, but sending it is spec-sanctioned
+        # and lets clients that do validate it benefit.
         return construct_redirect_uri(
             str(pending.params.redirect_uri),
             code=code,
             state=pending.params.state,
+            iss=self._issuer_url,
         )
 
     # ---- authorization code exchange -----------------------------------
