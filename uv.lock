@@ -173,7 +173,7 @@ wheels = [
 
 [[package]]
 name = "cite-caddy"
-version = "2.3.9"
+version = "2.3.10"
 source = { editable = "." }
 dependencies = [
     { name = "cryptography" },
