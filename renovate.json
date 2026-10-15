@@ -1,0 +1,8 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": ["local>herbertkokholm/renovate-config"],
+  "lockFileMaintenance": {
+    "enabled": true,
+    "schedule": ["* * 1-7 * *"]
+  }
+}
