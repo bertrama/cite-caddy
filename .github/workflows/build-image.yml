@@ -8,9 +8,8 @@ on:
 jobs:
   build-unstable:
     name: Build unstable ${{ github.sha }}
-    uses: mlibrary/platform-engineering-workflows/.github/workflows/build-unstable.yml@2012bb6a322ad02c45c01372de2f5e2e3d7329ac # v1.6.7
+    uses: bertrama/cite-caddy/.github/workflows/build-unstable.yml
     with:
-      image_name: ${{ github.repository }}-unstable
       tag: ${{ github.sha }}
       dockerfile: Dockerfile
     secrets:
