@@ -8,6 +8,9 @@ on:
 jobs:
   build-unstable:
     name: Build unstable ${{ github.sha }}
+    permissions:
+      contents: read
+      packages: write
     uses: bertrama/cite-caddy/.github/workflows/build-unstable.yml@dd28ec91a69e5629e3aa2b9f2f217e8ac8d886ed
     with:
       tag: ${{ github.sha }}
