@@ -13,4 +13,4 @@ jobs:
       tag: ${{ github.sha }}
       dockerfile: Dockerfile
     secrets:
-      GH_PACKAGE_READ_TOKEN: ${{ secrets.GH_PACKAGE_READ_TOKEN }}
+      GH_PACKAGE_READ_TOKEN: ${{ secrets.GITHUB_TOKEN }}
