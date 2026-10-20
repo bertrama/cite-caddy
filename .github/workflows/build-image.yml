@@ -13,4 +13,5 @@ jobs:
       image_name: ${{ github.repository }}-unstable
       tag: ${{ github.sha }}
       dockerfile: Dockerfile
-    secrets: inherit
+    secrets:
+      GH_PACKAGE_READ_TOKEN: ${{ secrets.GH_PACKAGE_READ_TOKEN }}
