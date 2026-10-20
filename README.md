@@ -350,3 +350,5 @@ ID/Type/API key), how it's protected, and how to have it deleted.
 ## License
 
 [MIT](LICENSE)
+
+|
